@@ -97,6 +97,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--aqua);outline-offse
 @keyframes rise{to{transform:none}}
 .grad{background:linear-gradient(90deg,var(--indigo-claro),var(--aqua),var(--indigo-claro));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
 @keyframes shine{to{background-position:200% center}}
+/* Título: el degradado recorre los tres verbos en bucle (JS alterna la clase .on) */
+.hero h1 .vb{background:linear-gradient(90deg,var(--indigo-claro),var(--aqua),var(--indigo-claro));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:#fff;transition:color .9s var(--ease);animation:shine 6s linear infinite}
+.hero h1 .vb.on{color:transparent}
 .hero p.lead{font-size:1.15rem;color:#B7BED3;max-width:32rem;opacity:0;animation:fade .9s .5s var(--ease) forwards}
 .hero .ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem;opacity:0;animation:fade .9s .7s var(--ease) forwards}
 .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2.4rem;opacity:0;animation:fade .9s .9s var(--ease) forwards}
@@ -497,9 +500,9 @@ footer .bottom a{text-decoration:underline;text-underline-offset:3px}
     <div>
       <span class="eyebrow mono"><span class="dot"></span>Tecnología con sentido de negocio</span>
       <h1>
-        <span class="line"><span>Desarrollamos,</span></span>
-        <span class="line"><span>analizamos y</span></span>
-        <span class="line"><span>automatizamos <span class="grad">con IA.</span></span></span>
+        <span class="line"><span><span class="vb">Desarrollamos</span>,</span></span>
+        <span class="line"><span><span class="vb">analizamos</span> y</span></span>
+        <span class="line"><span><span class="vb">automatizamos</span>.</span></span>
       </h1>
       <p class="lead">Tecnología alineada con su negocio, desde la idea hasta la operación.</p>
       <div class="ctas">
@@ -1116,6 +1119,11 @@ footer .bottom a{text-decoration:underline;text-underline-offset:3px}
   // CTA
   const ctaIo = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ctaIo.disconnect(); } }), {threshold:.4});
   ctaIo.observe(document.getElementById('ctaBox'));
+
+  // Título: el degradado pasa de un verbo al siguiente
+  const vbs = document.querySelectorAll(".hero h1 .vb");
+  if (reduce) vbs.forEach(v => v.classList.add("on"));
+  else { let vi = 0; setTimeout(() => { vbs[0].classList.add("on"); setInterval(() => { vbs[vi].classList.remove("on"); vi = (vi + 1) % vbs.length; vbs[vi].classList.add("on"); }, 2200); }, 900); }
 
   // Cursor
   if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
